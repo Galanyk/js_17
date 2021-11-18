@@ -1,31 +1,36 @@
 class ListsUsers {
-    static API = "  https://jsonplaceholder.typicode.com";
+    static API = "https://jsonplaceholder.typicode.com";
     static CLASSES = {
-        BUTTON: 'button',
-        USER_NAME: 'username',
-        USER_POSTS: 'user-posts',
-        USER_TITLE: 'user-title',
+        BUTTON: $('button'),
+        USER_NAME: $('username'),
+        USER_POSTS: $('user-posts'),
+        USER_TITLE: $('user-title'),
+        CONTAINER_USER: $("container-user"),
     };
 
     static ENVIRONMENT = {
         USERS: {
             getUser: "/users",
         },
+        POSTS: {
+            getUserPost: "/posts?userId=",
+        },
     };
-    _mainContainer = null;
+    $_mainContainer = null;
 
     constructor(className) {
-        this._mainContainer = ListsUsers.getByClassName(className);
+        this.$_mainContainer = ListsUsers.getByClassName(className);
         this.init();
+        // console.log(this.$_mainContainer)
     };
 
     init() {
         this.downloadUsers();
-        this.setListener(this._mainContainer, 'click', this.onButtonClick);
+        this.setListener(this.$_mainContainer, 'click', this.onButtonClick);
     };
 
     static getByClassName(className) {
-        return document.querySelector(`.${className}`);
+        return $(this.$_mainContainer).addClass(className)
     };
 
     getData(data, key) {
@@ -33,18 +38,21 @@ class ListsUsers {
     };
 
     setListener(element, event, callBack) {
-        element.addEventListener(event, callBack);
+        $(element).on(event, callBack);
     };
 
     createElements(listUsers) {
         listUsers.forEach(user => {
-            this.createElement(user.name, this._mainContainer, 'div', ListsUsers.CLASSES.USER_NAME);
-            this.createElementButton(this._mainContainer, 'button', ListsUsers.CLASSES.BUTTON, user.id);
+            this.createElement(user.name, this.$_mainContainer, 'div', ListsUsers.CLASSES.USER_NAME)
+                // this.createElementButton(this.$_mainContainer, 'button', ListsUsers.CLASSES.BUTTON, user.id);
         });
     };
 
     onButtonClick = (userId) => {
-        fetch(`https://jsonplaceholder.typicode.com/posts?userId=${userId.target.id}`)
+        if (userId.target.className !== ListsUsers.CLASSES.BUTTON) {
+            return;
+        };
+        fetch(ListsUsers.API + ListsUsers.ENVIRONMENT.POSTS.getUserPost + `${userId.target.id}`)
             .then((response) => response.json())
             .then((data) => {
                 if (getData.getContainer().children.length !== 0) {
@@ -52,12 +60,17 @@ class ListsUsers {
                 }
                 return data;
             })
-            .then((data) =>
-                data.forEach(element => {;
-                    this.createElement(`${element.title}`, getData.getContainer(), 'div', ListsUsers.CLASSES.USER_TITLE);
-                    this.createElement(`${element.body}`, getData.getContainer(), 'div', ListsUsers.CLASSES.USER_POSTS);
-                }));
+            .then((data) => data.forEach(element => {;
+                this.createElement(`${element.title}`, getData.getContainer(), 'div', ListsUsers.CLASSES.USER_TITLE);
+                this.createElement(`${element.body}`, getData.getContainer(), 'div', ListsUsers.CLASSES.USER_POSTS);
+            }));
     };
+    get $onButtonClick() {
+        return this._$onButtonClick;
+    }
+    set $onButtonClick(value) {
+        this._$onButtonClick = value;
+    }
 
     downloadUsers = () => {
         fetch(ListsUsers.API + ListsUsers.ENVIRONMENT.USERS.getUser)
@@ -66,17 +79,19 @@ class ListsUsers {
     };
 
     createElement(data, containerEl, tag, classList) {
-        const element = document.createElement(tag);
-        element.textContent = data;
-        element.classList.add(classList);
-        containerEl.append(element);
+        const element = $("el").add(tag).addClass(classList);
+
+        // $(tag).append(element)
+        // element.appendTo(containerEl);
+        // console.log(containerEl.children.length)
     };
 
-    createElementButton(containerEl, tag, classList, Id) {
-        const element = document.createElement(tag);
-        element.textContent = 'Show Posts';
-        element.classList.add(classList);
-        element.id = Id;
-        containerEl.append(element);
+    createElementButton(containerEl, tag, $classList, Id) {
+
+        // const $element = add(tag);
+        // $element.text('Show Posts');
+        // $element.addClass($classList);;
+        // $element.id = Id;
+        // containerEl.append($element);
     };
 }

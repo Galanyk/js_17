@@ -5,8 +5,12 @@ class GetData {
         this._container = GetData.getByClassName(className);
     };
 
+    // static getByClassName(className) {
+    //     return document.querySelector(`.${className}`);
+    // };
+
     static getByClassName(className) {
-        return document.querySelector(`.${className}`);
+        return $(this._containern).addClass(className)
     };
 
     getContainer() {
