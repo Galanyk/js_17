@@ -1,2 +1,5 @@
-const listsUsers = new ListsUsers($("container-user"));
-const getData = new GetData($("container-data"));
+$(() => {
+    const listsUsers = new ListsUsers($('.container-user'));
+    const listData = new ListsData($('.container-data'));
+
+});

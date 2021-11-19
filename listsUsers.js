@@ -1,11 +1,11 @@
 class ListsUsers {
     static API = "https://jsonplaceholder.typicode.com";
     static CLASSES = {
-        BUTTON: $('button'),
-        USER_NAME: $('username'),
-        USER_POSTS: $('user-posts'),
-        USER_TITLE: $('user-title'),
-        CONTAINER_USER: $("container-user"),
+        BUTTON: 'button',
+        USER_NAME: 'username',
+        USER_POSTS: 'user-posts',
+        USER_TITLE: 'user-title',
+        CONTAINER_USER: 'container-user',
     };
 
     static ENVIRONMENT = {
@@ -16,25 +16,27 @@ class ListsUsers {
             getUserPost: "/posts?userId=",
         },
     };
-    $_mainContainer = null;
+    _mainContainer = null;
 
     constructor(className) {
-        this.$_mainContainer = ListsUsers.getByClassName(className);
+        this._mainContainer = className;
+        //console.log('cons', className);
         this.init();
-        // console.log(this.$_mainContainer)
     };
 
     init() {
         this.downloadUsers();
-        this.setListener(this.$_mainContainer, 'click', this.onButtonClick);
+        this.setListener(this._mainContainer, 'click', this.onButtonClick);
     };
 
-    static getByClassName(className) {
-        return $(this.$_mainContainer).addClass(className)
-    };
+    // static getByClassName(className) {
+    //     return $(this._mainContainer).addClass(className)
+    // };
 
     getData(data, key) {
+        console.log(data, key)
         return data.data[key];
+
     };
 
     setListener(element, event, callBack) {
@@ -43,20 +45,21 @@ class ListsUsers {
 
     createElements(listUsers) {
         listUsers.forEach(user => {
-            this.createElement(user.name, this.$_mainContainer, 'div', ListsUsers.CLASSES.USER_NAME)
-                // this.createElementButton(this.$_mainContainer, 'button', ListsUsers.CLASSES.BUTTON, user.id);
+            this.createElement(user.name, this._mainContainer, 'div', ListsUsers.CLASSES.USER_NAME)
+            this.createElementButton(this._mainContainer, 'button', ListsUsers.CLASSES.BUTTON, user.id);
         });
     };
 
     onButtonClick = (userId) => {
+        // console.log('listData: ', listsData)
         if (userId.target.className !== ListsUsers.CLASSES.BUTTON) {
             return;
         };
         fetch(ListsUsers.API + ListsUsers.ENVIRONMENT.POSTS.getUserPost + `${userId.target.id}`)
             .then((response) => response.json())
             .then((data) => {
-                if (getData.getContainer().children.length !== 0) {
-                    getData.deleteElements();
+                if (listsData.getContainer().children.length !== 0) {
+                    listsData.deleteElements();
                 }
                 return data;
             })
@@ -65,11 +68,11 @@ class ListsUsers {
                 this.createElement(`${element.body}`, getData.getContainer(), 'div', ListsUsers.CLASSES.USER_POSTS);
             }));
     };
-    get $onButtonClick() {
-        return this._$onButtonClick;
+    get onButtonClick() {
+        return this._onButtonClick;
     }
-    set $onButtonClick(value) {
-        this._$onButtonClick = value;
+    set onButtonClick(value) {
+        this._onButtonClick = value;
     }
 
     downloadUsers = () => {
@@ -79,19 +82,32 @@ class ListsUsers {
     };
 
     createElement(data, containerEl, tag, classList) {
-        const element = $("el").add(tag).addClass(classList);
-
-        // $(tag).append(element)
-        // element.appendTo(containerEl);
-        // console.log(containerEl.children.length)
+        const element = $('<' + `${ tag }` + ' class=' + `${ classList }` + '>' + `${ data }` + '</' + `${ tag }` + '>');
+        $(element).appendTo(containerEl);
     };
 
-    createElementButton(containerEl, tag, $classList, Id) {
-
-        // const $element = add(tag);
-        // $element.text('Show Posts');
-        // $element.addClass($classList);;
-        // $element.id = Id;
-        // containerEl.append($element);
+    createElementButton(containerEl, tag, classList, Id) {
+        const element = $('<' + `${ tag }` + ' class=' + `${ classList }` + ' id=' + `${ Id }` + '>' + `Show Posts` + '</' + `${ tag }` + '>');
+        $(element).appendTo(containerEl);
     };
 }
+
+
+//const element = $('<div class="alert-message">Новый текст сообщения.</div>')
+//const element = $("el").add(tag).addClass(classList);
+
+// const element = $(`${ <tag class = "${classList}">$ { data }</tag> }`)
+//     // class = "${classList}" > < /${">"}
+//     // $ { data } < /${tag}&gt;;
+// containerEl.append(element)
+// console.log(containerEl)
+// const element = `< $ { tag }
+//         class = "${classList}" >
+//             $ { data } < /${tag}>`;
+
+
+
+
+// const element = `${<{ tag }
+//     class = "${classList}" >
+//     $ { data } < /${tag}>}`;
