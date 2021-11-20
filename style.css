@@ -22,13 +22,13 @@
     margin-right: 30px;
     margin-bottom: 40px;
     padding-top: 10px;
-    color: orange;
+    color: rgb(231, 228, 6);
     font-weight: 600;
 }
 
 .container {
     display: flex;
-    background-image: url(../js_16-1/image/mouse.jpg);
+    background-image: url(../js_17/image/El.jpg);
     background-repeat: no-repeat;
     background-size: 100%;
     padding: 10px;

@@ -1,8 +1,9 @@
-class ListsData {
+class ListData {
     _container = null;
 
     constructor(className) {
         this._container = className;
+        console.log('listData: ', this._container);
     };
 
     // static getByClassName(className) {

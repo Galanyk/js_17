@@ -51,10 +51,10 @@ class ListsUsers {
     };
 
     onButtonClick = (userId) => {
-        // console.log('listData: ', listsData)
         if (userId.target.className !== ListsUsers.CLASSES.BUTTON) {
             return;
         };
+        // console.log('listData: ', listData)
         fetch(ListsUsers.API + ListsUsers.ENVIRONMENT.POSTS.getUserPost + `${userId.target.id}`)
             .then((response) => response.json())
             .then((data) => {
