@@ -94,9 +94,9 @@ class ListsUsers {
 
     isButtonClick(item) {
         return item.target.className !== ListsUsers.CLASSES.BUTTON;
-    }
+    };
 
     clearListData() {
         this._listData[0].innerHTML = "";
-    }
+    };
 }
