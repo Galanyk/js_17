@@ -28,9 +28,7 @@
 
 .container {
     display: flex;
-    background-image: url(../js_17/image/El.jpg);
-    background-repeat: no-repeat;
-    background-size: 100%;
+    background-color: blueviolet;
     padding: 10px;
 }
 
